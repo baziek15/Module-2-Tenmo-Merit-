@@ -13,24 +13,21 @@ import org.springframework.web.client.RestTemplate;
 public class TransferTypeService {
     private String baseUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    public TransferTypeService(String url) {
+    public TransferTypeService(String url) { // constructor
         this.baseUrl = url;
     }
 
-    public TransferType getTransferType(AuthenticatedUser authenticatedUser, String description) {
+    public TransferType getTransferType(AuthenticatedUser currentUser, String desc) {
         TransferType transferType = null;
-
         try {
 
             transferType = restTemplate.exchange(baseUrl + "transfertype/filter?description=" +
-                    description,
+                    desc,
                     HttpMethod.GET,
-                    makeEntity(authenticatedUser),
+                    makeEntity(currentUser),
                     TransferType.class).getBody();
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+        }  catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
         return transferType;
     }
@@ -38,17 +35,14 @@ public class TransferTypeService {
 
     public TransferType getTransferTypeFromId(AuthenticatedUser currentUser, int transferTypeId) {
         TransferType transferType = null;
-
         try {
             transferType = restTemplate.exchange(baseUrl + "transfertype/" +
                     transferTypeId,
                     HttpMethod.GET,
                     makeEntity(currentUser),
                     TransferType.class).getBody();
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+        }  catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
         return transferType;
     }

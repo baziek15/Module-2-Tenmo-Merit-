@@ -26,8 +26,6 @@ public class App {
     private TransferStatusService transferStatusService = new TransferStatusService(API_BASE_URL);
     private TransfersService transferService = new TransfersService(API_BASE_URL);
 
-    private static int transferIdNumber;// to increment each transfer created
-
     public static void main(String[] args) {
         App app = new App();
         app.run();
@@ -55,7 +53,6 @@ public class App {
             }
         }
     }
-
     private void handleRegister() {
         System.out.println("Please register a new user account");
         UserCredentials credentials = consoleService.promptForCredentials();
@@ -146,7 +143,7 @@ mainMenu();
     }
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
-        Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
+        Transfer[] transfers = transferService.getPendingTransfersUserId(currentUser);
         System.out.println("-------------------------------");
         System.out.println("      Pending Transfers");
         System.out.println(RED_BOLD+"ID          To          Amount"+ANSI_RESET);

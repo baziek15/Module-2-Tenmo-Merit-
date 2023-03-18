@@ -15,21 +15,19 @@ public class TransfersService {
 
     private String baseUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    public TransfersService(String url) {
+    public TransfersService(String url) { // TransfersService constructor with endpoint link url as parameter
         this.baseUrl = url;
     }
 
 
-    public void createTransfer(AuthenticatedUser currentUser, Transfer transfer) {
+    public void createTransfer(AuthenticatedUser currentUser, Transfer transfer) { // create a transfer using the Restemplate and passing the current user and transfer Object as parameter
 
         try {
-            restTemplate.exchange(baseUrl + "transfers/" + transfer.getTransferId(), HttpMethod.POST,makeTransferEntity(currentUser, transfer), Transfer.class);
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+            restTemplate.exchange(baseUrl + "transfers/" + transfer.getTransferId(),
+                    HttpMethod.POST,makeTransferEntity(currentUser, transfer), Transfer.class);
+        } catch(RestClientResponseException | ResourceAccessException e) {
+        e.printStackTrace();
         }
-
     }
 
 
@@ -39,12 +37,9 @@ public class TransfersService {
             transfers = restTemplate.exchange(baseUrl + "transfers/user/" + userId,
                     HttpMethod.GET,
                     makeAuthEntity(currentUser),
-                    Transfer[].class
-            ).getBody();
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+                    Transfer[].class).getBody();
+        } catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
         return transfers;
     }
@@ -58,10 +53,8 @@ public class TransfersService {
                     makeAuthEntity(currentUser),
                     Transfer.class
             ).getBody();
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+        } catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
         return transfer;
     }
@@ -76,15 +69,13 @@ public class TransfersService {
                     makeAuthEntity(currentUser),
                     Transfer[].class
             ).getBody();
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+        }catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
         return transfers;
     }
 
-    public Transfer[] getPendingTransfersByUserId(AuthenticatedUser currentUser) {
+    public Transfer[] getPendingTransfersUserId(AuthenticatedUser currentUser) {
 
         Transfer[] transfers = null;
         try {
@@ -93,26 +84,20 @@ public class TransfersService {
                     makeAuthEntity(currentUser),
                     Transfer[].class
             ).getBody();
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+        } catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
         return transfers;
     }
 
     public void updateTransfer(AuthenticatedUser currentUser, Transfer transfer) {
-
         try {
             restTemplate.exchange(baseUrl + "transfers/" + transfer.getTransferId(),
                     HttpMethod.PUT,
                     makeTransferEntity(currentUser, transfer),
                     Transfer.class);
-        }
-        catch(RestClientResponseException e) {
-            System.out.println("Error While updating the Transfer Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+        } catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
     }
 

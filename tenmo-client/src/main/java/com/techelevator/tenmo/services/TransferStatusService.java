@@ -12,7 +12,8 @@ import org.springframework.web.client.RestTemplate;
 public class TransferStatusService {
     private  String baseUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    public TransferStatusService(String url) {
+
+    public TransferStatusService(String url) { // constructor
         this.baseUrl = url;
     }
 
@@ -20,14 +21,11 @@ public class TransferStatusService {
     public TransferStatus getTransferStatus(AuthenticatedUser authenticatedUser, String description) {
         TransferStatus transferStatus = null;
         try {
-
             transferStatus = restTemplate.exchange(baseUrl + "transferstatus/filter?description=" + description,
                     HttpMethod.GET, makeEntity(authenticatedUser),
                     TransferStatus.class).getBody();
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+        }  catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
         return transferStatus;
     }
@@ -39,12 +37,9 @@ public class TransferStatusService {
             transferStatus = restTemplate.exchange(baseUrl + "transferstatus/" + transferStatusId, HttpMethod.GET,
                     makeEntity(authenticatedUser),
                     TransferStatus.class).getBody();
-        } catch(RestClientResponseException e) {
-            System.out.println("Error Code: " + e.getRawStatusCode());
-        } catch(ResourceAccessException e) {
-            System.out.println("Server network issue");
+        }  catch(RestClientResponseException | ResourceAccessException e) {
+            e.printStackTrace();
         }
-
         return transferStatus;
     }
 

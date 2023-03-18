@@ -15,12 +15,13 @@ public class AccountService{
 
     private String baseUrl;
     private RestTemplate restTemplate = new RestTemplate();
-    public AccountService(String url) {
+
+    public AccountService(String url) { // AccountService constructor with endpoint link url as parameter
         this.baseUrl = url;
     }
 
 
-    public BigDecimal getBalance(AuthenticatedUser currentUser) {
+    public BigDecimal getBalance(AuthenticatedUser currentUser) { // Sending the request to get the balance
         BigDecimal balance = BigDecimal.ZERO; // initialize balance value to 0
         try {
             balance = restTemplate.exchange(
@@ -29,34 +30,38 @@ public class AccountService{
                     createAuthEntity(currentUser),
                     BigDecimal.class).getBody();
 
-        } catch (RestClientException m) {
+        } catch (RestClientResponseException errorMessage) {
             System.out.println("Error getting balance from the account : "+currentUser.getUser().getUsername());
+            errorMessage.printStackTrace();
         }
         return balance;
     }
 
-    public Account getAccountByUserId(AuthenticatedUser currentUser, int userId) {
-        Account myAccount = new Account();
+    public Account getAccountByUserId(AuthenticatedUser currentUser, int userId) { // Sending the request to get Account by user_id
+        Account account = new Account();
         try {
-            myAccount = restTemplate.exchange(baseUrl + "account/user/" + userId, HttpMethod.GET, createAuthEntity(currentUser), Account.class).getBody();
-        } catch (RestClientResponseException e) {
-            e.printStackTrace();
+            account = restTemplate.exchange(baseUrl + "account/user/" + userId,
+                    HttpMethod.GET, createAuthEntity(currentUser), Account.class).getBody();
+
+        } catch (RestClientResponseException errorMessage) {
+            errorMessage.printStackTrace();
         }
-        return myAccount;
+        return account;
     }
 
-    public Account getAccountById(AuthenticatedUser currentUser, int accountId) {
-        Account myAccount = new Account();
+    public Account getAccountById(AuthenticatedUser currentUser, int accountId) { // Sending the request to get Account by account_id
+        Account account = new Account();
         try {
-            myAccount = restTemplate.exchange(baseUrl +"account/" + accountId, HttpMethod.GET, createAuthEntity(currentUser), Account.class).getBody();
-        } catch (RestClientResponseException m) {
-            m.printStackTrace();
+            account = restTemplate.exchange(baseUrl +"account/" + accountId,
+                    HttpMethod.GET, createAuthEntity(currentUser), Account.class).getBody();
+
+        } catch (RestClientResponseException errorMessage) {
+            errorMessage.printStackTrace();
         }
-        return myAccount;
+        return account;
     }
 
-
-    private HttpEntity createAuthEntity(AuthenticatedUser authenticatedUser) {
+    private HttpEntity createAuthEntity(AuthenticatedUser authenticatedUser) { //creates an HTTP entity, entity object with authorization headers
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authenticatedUser.getToken());
         HttpEntity entity = new HttpEntity<>(headers);

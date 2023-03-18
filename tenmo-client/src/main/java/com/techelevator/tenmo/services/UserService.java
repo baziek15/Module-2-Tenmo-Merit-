@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
-
     private RestTemplate restTemplate;
     private final String BASE_URL = "http://localhost:8080/";
 
@@ -54,6 +53,4 @@ public class UserService {
         HttpEntity entity = new HttpEntity(httpHeaders);
         return entity;
     }
-
-
 }
