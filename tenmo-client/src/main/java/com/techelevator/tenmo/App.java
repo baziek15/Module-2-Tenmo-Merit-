@@ -7,10 +7,8 @@ import java.util.UUID;
 
 
 public class App {
-    public static final String BLACK_BOLD = "\033[1;30m";  // BLACK
+
     public static final String RED_BOLD = "\033[1;31m";    // RED
-    public static final String GREEN_BOLD = "\033[1;32m";  // GREEN
-    public static final String YELLOW_BOLD = "\033[1;33m"; // YELLOW
     public static final String ANSI_RESET = "\u001B[0m";
 
     private static final String API_BASE_URL = "http://localhost:8080/";
@@ -18,13 +16,13 @@ public class App {
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
     private AuthenticatedUser currentUser;
-    private ConsoleService console = new ConsoleService();
-    private AccountService accountService = new AccountService(API_BASE_URL);
+    private final ConsoleService console = new ConsoleService();
+    private final AccountService accountService = new AccountService(API_BASE_URL);
 
-    private UserService userService = new UserService();
-    private TransferTypeService transferTypeService = new TransferTypeService(API_BASE_URL);
-    private TransferStatusService transferStatusService = new TransferStatusService(API_BASE_URL);
-    private TransfersService transferService = new TransfersService(API_BASE_URL);
+    private final UserService userService = new UserService();
+    private final TransferTypeService transferTypeService = new TransferTypeService(API_BASE_URL);
+    private final TransferStatusService transferStatusService = new TransferStatusService(API_BASE_URL);
+    private final TransfersService transferService = new TransfersService(API_BASE_URL);
 
     public static void main(String[] args) {
         App app = new App();
@@ -286,9 +284,9 @@ public class App {
             receiverAccountId = accountService.getAccountByUserId(currentUser, currentUser.getUser().getId()).getAccountId();
         }
 
-        // Generate a unique transfer ID
+
         UUID uniqueId = UUID.randomUUID();
-        int transferId = uniqueId.hashCode();
+        int transferId = uniqueId.hashCode();// Generate a unique transfer ID
 
         BigDecimal amount = new BigDecimal(amountString);
 
