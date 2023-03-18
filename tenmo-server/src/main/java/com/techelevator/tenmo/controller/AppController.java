@@ -12,7 +12,6 @@ import java.util.List;
 
 
 @RestController
-
 public class AppController {
     @Autowired
     AccountDao accountDao;
@@ -46,7 +45,6 @@ public class AppController {
         Account receiver = accountDao.getAccountByAccountId(transfer.getAccountTo());
 
         sender.send(amount);
-
         receiver.receive(amount);
 
 
@@ -118,8 +116,8 @@ public class AppController {
             Account sender = accountDao.getAccountByAccountId(transfer.getAccountFrom());
             Account receiver = accountDao.getAccountByAccountId(transfer.getAccountTo());
 
-sender.send(amountToTransfer);
-receiver.receive(amountToTransfer);
+        sender.send(amountToTransfer);
+        receiver.receive(amountToTransfer);
 
             transferdao.updateTransfer(transfer);
 

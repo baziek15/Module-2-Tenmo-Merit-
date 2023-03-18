@@ -20,9 +20,7 @@ public class Transfer {
     }
 
     public Transfer() {
-
     }
-
     public int getTransferId() {
         return transferId;
     }

@@ -11,7 +11,7 @@ public class JdbcTransferStatusDao implements TransferStatusDao{
     private JdbcTemplate jdbcTemplate;
 
 
-    public JdbcTransferStatusDao(DataSource dataSource) {
+    public JdbcTransferStatusDao(DataSource dataSource) { // initialize jdbcTemplate
         this.jdbcTemplate = new JdbcTemplate(dataSource);
 
     }

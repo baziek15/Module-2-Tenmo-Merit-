@@ -1,9 +1,7 @@
 package com.techelevator.tenmo.model;
 
 public class TransferStatus {
-    // type 1 == pending
-    // type 2 == approved
-    // type 3 == rejected
+
     private int transferStatusId;
     private String transferStatusDesc;
 

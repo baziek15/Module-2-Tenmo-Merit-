@@ -187,7 +187,7 @@ public class App {
 
         int n = console.promptForInt("        Enter ID of user you are sending to or (0) to cancel");
 
-        if (validateUserChoice(n, users, currentUser)) {
+        if (userVerification(n, users, currentUser)) {
             String amount = console.promptForString("       Enter amount  ===>   ");
             int num = Integer.parseInt(amount);
             if (num <= 0) {
@@ -211,7 +211,7 @@ public class App {
 
         int i = console.promptForInt("        Enter ID of user you are requesting from or (0) to cancel");
 
-        if (validateUserChoice(i, users, currentUser)) {
+        if (userVerification(i, users, currentUser)) {
             String amount = console.promptForString("       Enter amount   ===>   ");
             int num = Integer.parseInt(amount);
             if (num <= 0) {
@@ -304,7 +304,7 @@ public class App {
 
         return transfer;
     }
-    private boolean validateUserChoice(int userIdChoice, User[] users, AuthenticatedUser currentUser) {
+    private boolean userVerification(int userIdChoice, User[] users, AuthenticatedUser currentUser) {
         if (userIdChoice != 0) {
             for (User user : users) {
                 if (user.getId() == userIdChoice) {
