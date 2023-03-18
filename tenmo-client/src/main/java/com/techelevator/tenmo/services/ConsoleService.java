@@ -118,7 +118,7 @@ public class ConsoleService {
         System.out.println("-------------------------------------------");
 
     }
-    public void printPendindOptions() {
+    public void listPendindChoices() {
         System.out.println("-------------------------------------------");
         System.out.println(""+RED_BOLD+"1"+ANSI_RESET+": Approve");
 
